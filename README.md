@@ -1,8 +1,6 @@
 # RAMP
 
-Implementation of RAMP for privacy-preserving range-filtered approximate nearest
-neighbor search, including dimension selection, encrypted range filtering,
-HNSW/IVF search, candidate reuse, and client reranking.
+Implementation of RAMP for privacy-preserving range-filtered approximate nearest neighbor search, including dimension selection, encrypted range filtering, HNSW/IVF search, candidate reuse, and client reranking.
 
 Tested on Ubuntu 26.04.
 

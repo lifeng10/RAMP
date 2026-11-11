@@ -29,8 +29,7 @@ This produces the executable `../ramp-build/ramp`.
 
 ## Working Directory
 
-Run all commands from `RAMP/`. Paths beginning with `../` refer to its parent
-directory, so `data/` and `RAMP/` are at the same level:
+Run all commands from `RAMP/`. Paths beginning with `../` refer to its parent directory, so `data/` and `RAMP/` are at the same level:
 
 ```text
 working-directory/
@@ -46,15 +45,11 @@ working-directory/
 └── ramp-results/         # Query results
 ```
 
-Create `data/sift/` and place the extracted SIFT files there. The other data and
-output directories are created by the commands below and the build commands above.
+Create `data/sift/` and place the extracted SIFT files there. The other data and output directories are created by the commands below and the build commands above.
 
 ## Usage
 
-Use `convert_data.py` to convert SIFT, SIFT1M, COCO, or FANNS100K into RAMP inputs.
-We use the [SIFT dataset](https://huggingface.co/datasets/zjd2000/ANN_SIFT/resolve/main/sift.tar.gz?download=true)
-as an example. Place the extracted `.fvecs` files in `../data/sift/` and preprocess
-the data:
+Use `convert_data.py` to convert SIFT, SIFT1M, COCO, or FANNS100K into RAMP inputs. We use the [SIFT dataset](https://huggingface.co/datasets/zjd2000/ANN_SIFT/resolve/main/sift.tar.gz?download=true) as an example. Place the extracted `.fvecs` files in `../data/sift/` and preprocess the data:
 
 ```bash
 # Convert SIFT data and generate attributes and range queries.
@@ -70,8 +65,7 @@ python3 prepare.py \
     --scale 1024 --gamma 1 --output ../ramp-input
 ```
 
-This prepares 100K database vectors, 500 queries, public data, and range queries
-matching 10% of the database. Run RAMP:
+This prepares 100K database vectors, 500 queries, public data, and range queries matching 10% of the database. Run RAMP:
 
 ```bash
 OPENBLAS_NUM_THREADS=1 ../ramp-build/ramp \
@@ -79,9 +73,7 @@ OPENBLAS_NUM_THREADS=1 ../ramp-build/ramp \
     --scan-threshold 0 --hnsw-threshold 86602 --repeats 3
 ```
 
-Timing records (in milliseconds) and ranked result IDs are saved in
-`../ramp-results/queries.csv` and `../ramp-results/results.csv`, respectively.
-Use new output directories when rerunning.
+Timing records (in milliseconds) and ranked result IDs are saved in `../ramp-results/queries.csv` and `../ramp-results/results.csv`, respectively. Use new output directories when rerunning.
 
 ## Datasets used in the paper
 
@@ -101,16 +93,6 @@ python3 convert_data.py fanns100k ../data/fanns-medium \
     --public-source ../data/fanns-large/database_vectors.fvecs --output ../data/fanns100k
 ```
 
-FANNS100K reads `database_vectors.fvecs`, `query_vectors.fvecs`, and
-`database_attributes.jsonl` from [arxiv-for-fanns-medium](https://huggingface.co/datasets/SPCL/arxiv-for-fanns-medium).
-Public vectors come from [arxiv-for-fanns-large](https://huggingface.co/datasets/SPCL/arxiv-for-fanns-large),
-excluding evaluation vectors. Its `update_date` values are preserved.
-COCO and FANNS100K vectors are normalized during conversion.
+FANNS100K reads `database_vectors.fvecs`, `query_vectors.fvecs`, and `database_attributes.jsonl` from [arxiv-for-fanns-medium](https://huggingface.co/datasets/SPCL/arxiv-for-fanns-medium). Public vectors come from [arxiv-for-fanns-large](https://huggingface.co/datasets/SPCL/arxiv-for-fanns-large), excluding evaluation vectors. Its `update_date` values are preserved. COCO and FANNS100K vectors are normalized during conversion.
 
-Reuse the preparation and run commands with the appropriate dataset paths,
-scale, and calibrated thresholds.
-Set `--scale 1024` for SIFT/SIFT1M and `--scale 1.001` for COCO/FANNS100K.
-The converter also creates 200 separate calibration queries. For threshold
-selection, set several range sizes with `--matching`, then use `ramp --calibrate`
-and `select_thresholds.py`. Conversion options and the calibration steps are
-described by `python3 convert_data.py --help`.
+Reuse the preparation and run commands with the appropriate dataset paths, scale, and calibrated thresholds. Set `--scale 1024` for SIFT/SIFT1M and `--scale 1.001` for COCO/FANNS100K. The converter also creates 200 separate calibration queries. For threshold selection, set several range sizes with `--matching`, then use `ramp --calibrate` and `select_thresholds.py`. Conversion options and the calibration steps are described by `python3 convert_data.py --help`.
